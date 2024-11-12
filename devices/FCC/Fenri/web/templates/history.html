@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../static/js/jquery-2.1.4.min.js"></script>
+
+    <link rel="stylesheet" href="../static/css/cs.css?a=002">
+    <link rel="stylesheet" href="../static/css/csbtn.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+
+</head>
+<body> 
+<br>
+<div class="container body-content">
+    <div><br></div>
+	<input type='submit' value='Home' onclick=load("index") class='btn btn-s1'>
+	<input type='submit' value='歷史資料' onclick=load("history") class='btn btn-s1'>
+	<input type='submit' value='校正' onclick=load("parameter") class='btn btn-s1'>
+	<input type='submit' value='狀態' onclick=load("state") class='btn btn-s1'>
+<div><br></div>
+    <h3 id="time"></h3>
+    <h3 id="msg">History</h3>
+<div><br></div>
+<input type="date"  id="selDate1"  required="">
+<input type='submit' value='select' onclick=loadTable() class='btn btn-s1'>
+<div><br></div>
+    <table class="table table-bordered table-striped table-hover" id="MyTable"> 
+    <tbody> 
+    <tr>
+	<th>時間</th> 
+        <th>pH</th> 
+        <th>狀態</th> 
+        <th>NH3</th>
+	<th>狀態</th> 
+	<th>COD</th>
+	<th>狀態</th> 
+	<th>F</th>
+	<th>狀態</th> 
+	<th>Flow</th>
+	<th>狀態</th> 
+   </tr>
+    {% for row in rows %} 
+    <tr> 
+        <td>{{row['DateTime']}}</td>
+        <td>{{row['pH']}}</td> 
+<td>{{row['pHst']}}</td> 
+        <td>{{row['NH3']}}</td>
+<td>{{row['NH3st']}}</td>
+	<td>{{row['COD']}}</td>
+<td>{{row['CODst']}}</td>
+	<td>{{row['F']}}</td>
+<td>{{row['Fst']}}</td>
+	<td>{{row['Flow']}}</td>
+<td>{{row['Flowst']}}</td>
+    </tr>
+    {% endfor %}
+ </tbody> 
+</div>
+</body>
+</html>
+
+<script text = "text/javascript">
+document.getElementById("selDate1").valueAsDate = new Date();
+
+function loadTable(){
+ var x = document.getElementById("selDate1").value;
+ top.location= ('history?datetime='+x);
+}
+
+function load(dev){
+ top.location= (dev);
+}
+</script>

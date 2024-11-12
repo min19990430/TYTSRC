@@ -1,0 +1,125 @@
+.btn-s1 {
+  color: #FFFFFF;
+  background-color: #428bca;
+  border-color: #357ebd;
+  font-size:15px;
+}
+.btn-s1:hover,
+.btn-s1:focus,
+.btn-s1:active,
+.btn-s1.active,
+.open .dropdown-toggle.btn-s1 {
+  color: #ffffff;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+
+.btn-s2 {
+  color: #ffffff;
+  background-color: #33a517;
+  border-color: #33a517;
+  font-size:10px;
+}
+.btn-s2:hover,
+.btn-s2:focus,
+.btn-s2:active,
+.btn-s2.active,
+.open .dropdown-toggle.btn-s2 {
+  color: #ffffff;
+   background-color: #2b8914;
+  border-color: #2b8914;
+  font-size:10px;
+}
+
+.btn-s3 {
+  color: #ffffff;
+  background-color: #fb9e0b;
+  border-color: #fb9e0b;
+  font-size:10px;
+}
+.btn-s3:hover,
+.btn-s3:focus,
+.btn-s3:active,
+.btn-s3.active,
+.open .dropdown-toggle.btn-s3 {
+  color: #ffffff;
+   background-color: #e18d07;
+  border-color: #e18d07;
+  font-size:10px;
+}
+
+.btn-s4 {
+  color: #ffffff;
+  background-color: #999999;
+  border-color: #999999;
+  font-size:10px;
+}
+.btn-s4:hover,
+.btn-s4:focus,
+.btn-s4:active,
+.btn-s4.active,
+.open .dropdown-toggle.btn-s4 {
+  color: #ffffff;
+   background-color: #666666;
+  border-color: #666666;
+  font-size:10px;
+}
+
+.btn-s5 {
+  color: #ffffff;
+  background-color: #fe5601;
+  border-color: #fe5601;
+  font-size:10px;
+}
+.btn-s5:hover,
+.btn-s5:focus,
+.btn-s5:active,
+.btn-s5.active,
+.open .dropdown-toggle.btn-s5 {
+  color: #ffffff;
+   background-color: #e44f03;
+  border-color: #e44f03;
+  font-size:10px;
+}
+
+.btn-s6 {
+  color: #ffffff;
+  background-color: #fe5601;
+  border-color: #fe5601;
+  font-size:10px;
+  width: 60px;
+  height: 40px;
+  margin-top: 2px;
+}
+
+.btn-s6:hover,
+.btn-s6:focus,
+.btn-s6:active,
+.btn-s6.active,
+.open .dropdown-toggle.btn-s6 {
+  color: #000000;
+  background-color: #e44f03;
+  border-color: #e44f03;
+}
+
+.blink {
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+ 
+    -webkit-animation-name: blink; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 2s; /* Chrome, Safari, Opera */
+    animation-name: blink;
+    animation-duration: 2s;
+}
+ 
+/* Chrome, Safari, Opera */
+@-webkit-keyframes blink {
+    from {color: red;}
+    to {color: yellow;}
+}
+ 
+/* Standard syntax */
+@keyframes blink {
+    from {color: red;}
+    to {color: yellow;}
+}

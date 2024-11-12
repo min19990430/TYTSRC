@@ -1,0 +1,261 @@
+<html>
+
+<head>
+	<title>Parameter</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="../static/js/jquery-2.1.4.min.js"></script>
+	<!-- <link rel="stylesheet" href="../static/css/cs.css?a=002">
+	<link rel="stylesheet" href="../static/css/csbtn.css"> -->
+	<link rel="stylesheet" href="../static/css/bootstrap.css">
+</head>
+
+<body>
+	<br>
+	<div class="body-content">
+		<div class="page_div">
+			<input type='submit' value='Home' onclick=load("index") class='page_btn'>
+			<!-- <input type='submit' value='歷史資料' onclick=load("history") class='page_btn'> -->
+			<input type='submit' value='校正' onclick=load("parameter") class='page_btn'>
+		</div>
+		<div class="sel_div">
+			<select id="sel_station" onchange="select_parameter()">
+				<option value="A">A區</option>
+				<option value="B">B區</option>
+				<option value="C">C區</option>
+				<option value="D">D區</option>
+			</select>
+
+			<select id="sel_device" onchange="select_parameter()">
+				<option value="pH">pH</option>
+				<option value="Temp">Temp</option>
+				<option value="Level">Level</option>
+			</select>
+		</div>
+
+		<div class="number_div">
+			<input type='submit' value='0' onclick=add("0") class='n-btn'>
+			<input type='submit' value='1' onclick=add("1") class='n-btn'>
+			<input type='submit' value='2' onclick=add("2") class='n-btn'>
+			<input type='submit' value='3' onclick=add("3") class='n-btn'>
+			<input type='submit' value='4' onclick=add("4") class='n-btn'>
+			<input type='submit' value='5' onclick=add("5") class='n-btn'>
+			<input type='submit' value='6' onclick=add("6") class='n-btn'>
+			<input type='submit' value='7' onclick=add("7") class='n-btn'>
+			<input type='submit' value='8' onclick=add("8") class='n-btn'>
+			<input type='submit' value='9' onclick=add("9") class='n-btn'>
+			<input type='submit' value='.' onclick=add(".") class='n-btn'>
+			<input type='submit' value='clear' onclick=add("clear") class='n-btn'>
+		</div>
+
+		<table class="table table-bordered table-striped table-hover" id="MyTable">
+			<tbody id="J_TbData"> </tbody>
+		</table>
+
+	</div>
+</body>
+
+</html>
+
+<script text="text/javascript">
+	var today;
+	var start, now, fps, elapsed;
+
+	fps = 1000 / 1;
+	start = Date.now();
+
+	select_parameter();
+
+	animate();
+	function select_parameter() {
+		$.ajax({
+			data: {
+				'station': $("#sel_station").val(),
+				'device': $("#sel_device").val(),
+			},
+			url: '../parameter_api',
+			method: 'GET',
+			success: function (msg) {
+				let data = JSON.parse(msg);
+				let station = data.station;
+				let device = data.device;
+				let variable = data.variable;
+				let signal = data.signal;
+
+				console.log(variable.length);
+				$("#J_TbData").html("");
+				var $trTemp = $("<tr></tr>");
+				$trTemp.append("<th>地點</th>");
+				$trTemp.append("<th>設備</th>");
+				$trTemp.append("<th>Point</th>");
+				$trTemp.append("<th>濃度</th>");
+				$trTemp.append("<th>參數</th>");
+				$trTemp.append("<th></th>");
+				$trTemp.appendTo("#J_TbData");
+
+				for ($j = variable.length - 1; $j >= 0; $j--) {
+					$trTemp = $("<tr></tr>");
+					$trTemp.append("<td><input type='text' value='" + station + "' readonly /></td>");
+					$trTemp.append("<td><input type='text' value='" + device + "' readonly /></td>");
+					$trTemp.append("<td><input type='text' value='" + $j + "' readonly /></td>");
+					$trTemp.append("<td><input type='text' id='variable_" + $j + "' value=" + variable[$j] + "  /></td>");
+					$trTemp.append("<td><input type='text' id='signal_" + $j + "' value=" + signal[$j] + "  /></td>");
+					$trTemp.append("<td></td>");
+					$trTemp.appendTo("#J_TbData");
+				}
+
+				var $trTemp = $("<tr></tr>");
+				$trTemp.append("<td></td>");
+				$trTemp.append("<td></td>");
+				$trTemp.append("<td>即時</td>");
+				$trTemp.append("<td><p><h4><span id='realVal'></span></h4></p></td>");
+				$trTemp.append("<td><p><h4><span id='realSig'></span></h4></p></td>");
+				$trTemp.append("<td><input type='button' value='變更' onclick='modifyVal();' class='btn btn-s1' /></td>");
+				$trTemp.appendTo("#J_TbData");
+
+			},
+			error: function () {
+			}
+		});
+	}
+
+	function animate() {
+		now = Date.now();
+		elapsed = now - start;
+		if (elapsed > fps) {
+			start = now - (elapsed % fps);
+			$.ajax({
+				url: '../real',
+				method: 'GET', // or GET
+				success: function (msg) {
+					let data = JSON.parse(msg);
+					let sel_station = document.getElementById('sel_station').value;
+					let sel_device = document.getElementById('sel_device').value;
+					let a = data[sel_station][sel_device];
+					document.getElementById('realVal').innerText = a.value;
+					document.getElementById('realSig').innerText = a.current;
+				},
+				error: function (msg) { console.log(msg); }
+			});
+		}
+		requestAnimationFrame(animate);
+	}
+
+
+	function modifyVal() {
+		let sel_station = document.getElementById('sel_station').value;
+		let sel_device = document.getElementById('sel_device').value;
+		let variable = '';
+		let signal = '';
+		let i = 0;
+		while (document.getElementById(`variable_${i}`) !== null) {
+			let value = document.getElementById(`variable_${i}`).value;
+			let sig = document.getElementById(`signal_${i}`).value;
+			variable += value + (i < 4 ? ',' : '');
+			signal += sig + (i < 4 ? ',' : '');
+			i++;
+		}
+
+		$.ajax({
+			data: {
+				'station': sel_station,
+				'device': sel_device,
+				'val': variable,
+				'sig': signal
+			},
+			url: '../parameter_update',
+			method: 'GET', // or GET
+			success: function (msg) {
+				alert(msg);
+				location.reload();
+			},
+			error: function () {
+				location.reload();
+			}
+		});
+
+	}
+
+	function load(dev) {
+		top.location = (dev);
+	}
+
+	var set_id = "";
+
+	function setval(a) {
+		set_id = a;
+	}
+
+	function add(nums) {
+		var dg = document.getElementById(set_id);
+		if (dg != null) {
+			if (nums == "clear") {
+				dg.value = "";
+			} else {
+				dg.value = dg.value + nums;
+			}
+		}
+	}
+
+</script>
+
+<style>
+	body {
+		background-color: black;
+		display: flex;
+		justify-content: center;
+	}
+
+	.body-content {
+		width: 1366px;
+	}
+
+	.page_div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.page_btn {
+		margin: 10px;
+		width: 5em;
+		height: 2.5em;
+		font-size: 2.5em;
+		background-color: black;
+		color: #fff;
+		border-style: solid;
+		border-color: #fff;
+	}
+
+	.sel_div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.sel_div select {
+		margin: 10px;
+		width: 5em;
+		height: 2.5em;
+		font-size: 2.5em;
+		background-color: black;
+		color: #fff;
+	}
+
+	.number_div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 1em;
+	}
+
+	.n-btn {
+		margin: 10px;
+		width: 3em;
+		height: 2.5em;
+		font-size: 2.5em;
+		background-color: black;
+		color: #fff;
+		border-style: solid;
+		border-color: #fff;
+	}
+</style>

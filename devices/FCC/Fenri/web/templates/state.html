@@ -1,0 +1,112 @@
+<html>
+<head>
+    <title>Parameter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../static/js/jquery-2.1.4.min.js"></script>
+
+    <link rel="stylesheet" href="../static/css/cs.css?a=002">
+    <link rel="stylesheet" href="../static/css/csbtn.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+
+</head>
+<body> 
+    <br>
+    <div class="container body-content">
+        <div><br></div>
+        <input type='submit' value='Home' onclick=load("index") class='btn btn-s1'>
+        <input type='submit' value='歷史資料' onclick=load("history") class='btn btn-s1'>
+        <input type='submit' value='校正' onclick=load("parameter") class='btn btn-s1'>
+        <input type='submit' value='狀態' onclick=load("state") class='btn btn-s1'>
+    <div><br></div>
+<div class="container body-content">
+	<div><br></div>
+
+    <table class="table table-bordered table-striped table-hover" id="MyTable"> 
+    <tbody> 
+    <tr>
+	<th>說明</th>
+        <th>參數</th> 
+        <th>目前狀態</th> 
+        <th></th>
+	<th></th>
+   </tr>
+    {% for row in rows %} 
+    <tr> 
+	<td><input type='text' value ={{row['caption']}} id=set_{{row["caption"]}} readonly></td>
+        <td><input type='text' value ={{row['set']}} id=set_{{row["set"]}} readonly></td>
+
+	{%if row['val'] == '10'%}
+        <td><input type='text' value = '正常' readonly></td> 
+	{%elif row['val'] == '31'%}
+        <td><input type='text' value = '維護' readonly></td> 
+    {%elif row['set'] == 'Auto' and row['val'] == '1'%}
+        <td><input type='text' value = '開啟' readonly></td>
+    {%elif row['set'] == 'Auto' and row['val'] == '0'%}
+        <td><input type='text' value = '關閉' readonly></td>  
+    {%else%}
+        <td><input type='text' id = '{{row['set']}}_val' value = '{{row['val']}}'></td> 
+	{% endif %}
+
+    {%if row['set'] == 'Auto'%}
+        <td><input type='submit' value='開啟' onclick=modifyVal('{{row["set"]}}','1'); class='btn btn-s1' ></td>
+	    <td><input type='submit' value='關閉' onclick=modifyVal('{{row["set"]}}','0'); class='btn btn-s1' ></td>
+    {%elif row['set'] != 'Delay' and row['set'] != 'Run'%}
+        <td><input type='submit' value='正常' onclick=modifyVal('{{row["set"]}}','10'); class='btn btn-s1' ></td>
+	    <td><input type='submit' value='維護' onclick=modifyVal('{{row["set"]}}','31'); class='btn btn-s1' ></td>
+    {%else%}
+        <td><input type='submit' value='修改' onclick=modifyVal2('{{row["set"]}}'); class='btn btn-s1' ></td>
+        <td></td>
+    {% endif %}
+
+    </tr>
+    {% endfor %}
+
+ </tbody> 
+</div>
+</body>
+</html>
+
+<script text = "text/javascript">
+
+function modifyVal(num,st){
+	console.log(num);
+	$.ajax({
+		data: {
+			'set'   : $('#set_' + num).val(),
+			'val'   : st,
+		},
+		url: '../state_update',
+		method: 'GET', // or GET
+		success: function(msg) {
+		alert(msg);
+		location.reload();
+		},
+		error: function(){
+			location.reload();
+		}
+	});
+}
+
+function modifyVal2(num){
+	console.log(num);
+	$.ajax({
+		data: {
+			'set'   : $('#set_' + num).val(),
+			'val'   : $('#' + num+'_val').val(),
+		},
+		url: '../state_update',
+		method: 'GET', // or GET
+		success: function(msg) {
+		alert(msg);
+		location.reload();
+		},
+		error: function(){
+			location.reload();
+		}
+	});
+}
+
+function load(dev){
+ top.location= (dev);
+}
+</script>

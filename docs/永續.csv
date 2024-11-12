@@ -1,0 +1,13 @@
+﻿設備UUID,設備,type,指針,目標物理量UUID,名稱,完整名稱,站點id,站點名稱
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,0,819f0b87-7252-4e18-9a0f-4bfc3257935c,pH,pH,A,A區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,1,cf8bf85a-2252-4d24-8572-49dde1c004ad,Temp,溫度,A,A區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,2,5530bb22-524b-40a2-8e75-5651e711c303,water_level,水位,A,A區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,3,4ccc917a-d8e0-4e5a-bfdd-5d17040df7c8,pH,pH,B,B區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,4,716ce488-a740-465c-a666-94f283fa6d49,Temp,溫度,B,B區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,5,55618f11-6235-448d-92a9-855bb183bb19,water_level,水位,B,B區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,6,a59968ec-0c1e-4f18-9164-d1a8460610ac,pH,pH,C,C區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,7,e2330a7c-ceb0-4e27-98da-59c2b8d88c04,Temp,溫度,C,C區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,8,4792f601-87c1-4d7d-9fd7-2a24aaae2929,water_level,水位,C,C區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,9,9501e630-56af-42a9-a143-15c6fb6b066f,pH,pH,D,D區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,10,b17aaa51-959d-4b10-8901-0f474a457fe8,Temp,溫度,D,D區
+b68eb407-9e33-48fb-aadf-a8e5de411583,D01,AI,11,241518bb-5870-4c0c-a932-efcdbb4244c4,water_level,水位,D,D區
